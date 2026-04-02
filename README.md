@@ -1,15 +1,12 @@
 # aid-mcp-test-01
 
-検証・デモ用の **架空社員名簿 MCP サーバー**（SSE 転送）と仕様メモです。データはすべて合成であり、実在の個人情報ではありません。
+検証・デモ用の **架空社員名簿 MCP サーバー**（SSE 転送）です。データはすべて合成であり、実在の個人情報ではありません。
 
 ## 含まれるもの
 
 | パス | 内容 |
 |------|------|
 | `mcp-server/` | FastMCP 実装、`employees.json`、テスト、依存関係 |
-| `docs/mcp-demo-spec.md` | デモ仕様 |
-| `docs/mcp-demo-work-plan.md` | 作業メモ |
-| `docs/openapi (1).json` | 参考用 OpenAPI（プロダクト連携のスキーマ例） |
 
 ## 再現手順（MCP サーバー）
 

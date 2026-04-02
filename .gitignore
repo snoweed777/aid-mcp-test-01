@@ -17,3 +17,8 @@ __pycache__/
 .idea/
 .vscode/
 *.swp
+
+# 公開リポジトリに含めないローカル／社内メモ・参考スキーマ
+docs/mcp-demo-spec.md
+docs/mcp-demo-work-plan.md
+docs/openapi (1).json
