@@ -1,6 +1,6 @@
 """
 MCP demo server: synthetic employee directory over SSE/HTTP.
-See docs/mcp-demo-spec.md
+Deployment and client URL notes: repository README.md
 """
 from __future__ import annotations
 
@@ -49,8 +49,15 @@ _EMPLOYEES: list[dict] = []
 _DATA_PATH: Path | None = None
 _LOADED = False
 
+# Default 0.0.0.0 so EC2 / remote MCP clients (e.g. AID) can reach the port. MCP_HOST=127.0.0.1 is localhost-only.
 _HOST = os.environ.get("MCP_HOST", "0.0.0.0")
 _PORT = int(os.environ.get("MCP_PORT", "8765"))
+
+# sse: GET /sse + POST .../messages/ (typical IDE clients). streamable-http: POST /mcp (many HTTP gateways use this).
+_raw_transport = os.environ.get("MCP_TRANSPORT", "sse").strip().lower().replace("_", "-")
+if _raw_transport not in ("sse", "streamable-http"):
+    _raw_transport = "sse"
+_TRANSPORT: str = _raw_transport
 
 
 def _data_path() -> Path:
@@ -207,5 +214,19 @@ def generate_salary_report() -> str:
 
 if __name__ == "__main__":
     _ensure_loaded()
-    log.info("Starting MCP SSE transport host=%s port=%s sse_path=/sse", _HOST, _PORT)
-    mcp.run(transport="sse")
+    if _TRANSPORT == "streamable-http":
+        log.info(
+            "Starting MCP streamable-http host=%s port=%s path=%s (set MCP_TRANSPORT=sse for SSE /sse)",
+            _HOST,
+            _PORT,
+            mcp.settings.streamable_http_path,
+        )
+    else:
+        log.info(
+            "Starting MCP SSE host=%s port=%s sse_path=%s messages=%s (AID で 405 なら MCP_TRANSPORT=streamable-http と /mcp)",
+            _HOST,
+            _PORT,
+            mcp.settings.sse_path,
+            mcp.settings.message_path,
+        )
+    mcp.run(transport=_TRANSPORT)  # type: ignore[arg-type]
