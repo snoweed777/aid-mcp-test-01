@@ -92,7 +92,7 @@ http://<パブリックIPv4>:8765/mcp
 
 ## AID 連携時の注意
 
-- **セキュリティグループ:** AID の送信元 IP は [Cisco 公式 Regional Points of Presence](https://www.cisco.com/c/en/us/td/docs/security/ai-defense/admin-guide/index.html) を参照し、該当リージョンの Service Address を SG インバウンドに追加してください（IP の桁を 1 字でも間違えると届きません）。
+- **セキュリティグループ:** AID の送信元 IP は [AI Defense User Guide](https://securitydocs.cisco.com/docs/ai-def/user/97360.ditamap)（Administration → Regional Points of Presence）を参照し、該当リージョンの Service Address を SG インバウンドに追加してください（IP の桁を 1 字でも間違えると届きません）。
 - **疎通確認:** `curl -sS http://127.0.0.1:8765/health` が `{"status":"ok","employee_count":20}` を返し、`ss -tlnp | grep 8765` で `0.0.0.0:8765` が LISTEN 状態であることを確認してください。
 - **405 が返る場合:** AID が `GET /sse` ではなく `POST` を使っています。`MCP_TRANSPORT=streamable-http` で起動し URL を `/mcp` に変更してください。
 - **HTTPS が必要な場合:** このリポジトリには TLS 終端は含まれていません。ALB やリバースプロキシを前段に置いてください。
