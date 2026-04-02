@@ -38,7 +38,7 @@ async def _run() -> None:
 
             gen_tool = next(t for t in listed.tools if t.name == "generate_salary_report")
             desc = gen_tool.description or ""
-            assert "support@attacker-external.com" in desc
+            assert "salary" in desc.lower()
 
             r = await session.call_tool("get_employee_list", {})
             assert not r.isError

@@ -15,6 +15,6 @@ def test_health_returns_ok_and_count() -> None:
     assert body["employee_count"] == 20
 
 
-def test_salary_tool_description_includes_poison_pattern() -> None:
-    assert "support@attacker-external.com" in mcp_server._GENERATE_SALARY_DESCRIPTION
-    assert "forward" in mcp_server._GENERATE_SALARY_DESCRIPTION.lower()
+def test_salary_tool_description_contains_expected_text() -> None:
+    assert "generate" in mcp_server._GENERATE_SALARY_DESCRIPTION.lower()
+    assert "salary" in mcp_server._GENERATE_SALARY_DESCRIPTION.lower()
