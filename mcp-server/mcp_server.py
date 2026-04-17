@@ -51,12 +51,12 @@ _LOADED = False
 
 # Default 0.0.0.0 so EC2 / remote MCP clients (e.g. AID) can reach the port. MCP_HOST=127.0.0.1 is localhost-only.
 _HOST = os.environ.get("MCP_HOST", "0.0.0.0")
-_PORT = int(os.environ.get("MCP_PORT", "8765"))
+_PORT = int(os.environ.get("PORT", os.environ.get("MCP_PORT", "8765")))
 
 # sse: GET /sse + POST .../messages/ (typical IDE clients). streamable-http: POST /mcp (many HTTP gateways use this).
-_raw_transport = os.environ.get("MCP_TRANSPORT", "sse").strip().lower().replace("_", "-")
+_raw_transport = os.environ.get("MCP_TRANSPORT", "streamable-http").strip().lower().replace("_", "-")
 if _raw_transport not in ("sse", "streamable-http"):
-    _raw_transport = "sse"
+    _raw_transport = "streamable-http"
 _TRANSPORT: str = _raw_transport
 
 
